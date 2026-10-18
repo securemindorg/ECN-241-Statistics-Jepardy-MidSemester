@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECN 241 Jeopardy: Probability & Statistics</title>
+    <title>ECN 241 Jeopardy: Master Probability & Statistics Lab</title>
     <style>
         :root {
             --utica-navy: #0C223F;
@@ -288,8 +288,8 @@
 
     <header>
         <h2>ECN 241: Statistics for Management and Economics</h2>
-        <h1>Midsemester Probability & Statistics Jeopardy</h1>
-        <p>Utica University • School of Business and Justice Studies</p>
+        <h1>Mid-Semester Probability & Statistics Jeopardy</h1>
+        <p>Utica University • School of Business And Justice Studies</p>
     </header>
 
     <!-- Jeopardy Board -->
@@ -321,26 +321,26 @@
 </div>
 
 <script>
-    // Self-contained SVG generators for statistical distributions (Utica Navy & Orange theme)
-    function getNormalCurveSVG() {
-        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
-            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
-            <path d="M 20 130 Q 100 130 130 50 Q 150 10 170 50 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
-            <line x1="150" y1="20" x2="150" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
-            <text x="155" y="40" font-family="sans-serif" font-size="11" fill="%23E65300" font-weight="bold">Mean = Median = Mode</text>
-        </svg>`;
-    }
+    // Bulletproof Base64 Encoded SVG Data URIs for Visualizations
+    const normalCurveImg = "data:image/svg+xml;base64," + btoa(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">' +
+        '<rect width="300" height="150" fill="#f8fafc" rx="8"/>' +
+        '<path d="M 20 130 Q 100 130 130 50 Q 150 10 170 50 Q 200 130 280 130" fill="none" stroke="#0C223F" stroke-width="3"/>' +
+        '<line x1="150" y1="20" x2="150" y2="130" stroke="#E65300" stroke-width="2" stroke-dasharray="4"/>' +
+        '<text x="155" y="40" font-family="sans-serif" font-size="11" fill="#E65300" font-weight="bold">Mean = Median = Mode</text>' +
+        '</svg>'
+    );
 
-    function getRightSkewSVG() {
-        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
-            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
-            <path d="M 20 130 Q 70 130 90 70 Q 120 15 140 70 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
-            <line x1="110" y1="35" x2="110" y2="130" stroke="%233b82f6" stroke-width="2" stroke-dasharray="4"/>
-            <line x1="140" y1="20" x2="140" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
-            <text x="115" y="115" font-family="sans-serif" font-size="10" fill="%233b82f6" font-weight="bold">Median</text>
-            <text x="145" y="95" font-family="sans-serif" font-size="10" fill="%23E65300" font-weight="bold">Mean</text>
-        </svg>`;
-    }
+    const rightSkewImg = "data:image/svg+xml;base64," + btoa(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">' +
+        '<rect width="300" height="150" fill="#f8fafc" rx="8"/>' +
+        '<path d="M 20 130 Q 70 130 90 70 Q 120 15 140 70 Q 200 130 280 130" fill="none" stroke="#0C223F" stroke-width="3"/>' +
+        '<line x1="110" y1="35" x2="110" y2="130" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>' +
+        '<line x1="140" y1="20" x2="140" y2="130" stroke="#E65300" stroke-width="2" stroke-dasharray="4"/>' +
+        '<text x="115" y="115" font-family="sans-serif" font-size="10" fill="#3b82f6" font-weight="bold">Median</text>' +
+        '<text x="145" y="95" font-family="sans-serif" font-size="10" fill="#E65300" font-weight="bold">Mean</text>' +
+        '</svg>'
+    );
 
     const gameData = [
         {
@@ -351,7 +351,7 @@
                     value: 200, 
                     q: "When data is right-skewed (positively skewed), which measure of central tendency is typically pulled higher toward the tail?", 
                     a: "What is the mean? (The mean is sensitive to high outliers in the right tail)",
-                    image: getRightSkewSVG()
+                    image: rightSkewImg
                 },
                 { value: 300, q: "This statistical measure represents the square root of the variance and measures the dispersion or spread of data around the mean.", a: "What is the standard deviation?" },
                 { value: 400, q: "If you collect data on customer satisfaction ratings measured on a scale from 'Dissatisfied' to 'Very Satisfied', this level of measurement describes the data.", a: "What is ordinal data?" },
@@ -359,7 +359,7 @@
                     value: 500, 
                     q: "In a perfectly symmetrical distribution like this one, all three measures of central tendency are equal.", 
                     a: "What is a normal distribution (mean = median = mode)?",
-                    image: getNormalCurveSVG()
+                    image: normalCurveImg
                 }
             ]
         },
@@ -453,9 +453,9 @@
         mQuestion.innerText = qData.q;
         mAnswer.innerText = qData.a;
         
-        // Render SVG image if defined for the question
+        // Render Base64 image reliably
         if (qData.image) {
-            imageContainer.innerHTML = `<img src="${qData.image}" class="question-image" alt="Statistical Diagram">`;
+            imageContainer.innerHTML = `<img src="${qData.image}" class="question-image" alt="Statistical Distribution Chart">`;
             imageContainer.style.display = 'block';
         } else {
             imageContainer.innerHTML = '';
