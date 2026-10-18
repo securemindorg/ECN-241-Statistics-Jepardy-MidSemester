@@ -29,12 +29,43 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        /* GitHub Button in Upper Right */
+        .github-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--utica-orange);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 0.9rem;
+        }
+
+        .github-corner:hover {
+            background-color: #c44500;
+            transform: translateY(-1px);
+        }
+
+        .github-corner svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         header {
             background-color: var(--utica-navy);
             color: white;
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 12px;
             text-align: center;
             margin-bottom: 25px;
@@ -129,14 +160,16 @@
 
         .modal-content {
             background-color: white;
-            padding: 40px;
+            padding: 35px;
             border-radius: 12px;
-            max-width: 700px;
+            max-width: 750px;
             width: 100%;
             text-align: center;
             border-top: 8px solid var(--utica-orange);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
             animation: modalPop 0.2s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes modalPop {
@@ -149,43 +182,53 @@
             text-transform: uppercase;
             color: var(--utica-orange);
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .modal-value {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--utica-navy);
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .modal-question {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--text-main);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.4;
+        }
+
+        .question-image {
+            max-width: 280px;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px auto 20px auto;
+            display: block;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .modal-answer-container {
             display: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             background: #f8fafc;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid var(--border);
         }
 
         .modal-answer-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             font-weight: bold;
         }
 
         .modal-answer {
-            font-size: 1.25rem;
-            color: var(--green);
+            font-size: 1.15rem;
+            color: #10b981;
             font-weight: bold;
         }
 
@@ -226,16 +269,26 @@
                 font-size: 1.2rem;
                 padding: 15px;
             }
+            .github-corner {
+                position: relative;
+                margin-bottom: 15px;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <a href="https://github.com/securemindorg/ECN-231-Statistics-Jepordy-MidSemester" target="_blank" class="github-corner">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Repo
+    </a>
+
     <header>
         <h2>ECN 241: Statistics for Management and Economics</h2>
-        <h1>Master Probability & Statistics Jeopardy</h1>
-        <p>Utica University • Department of Business and Economics</p>
+        <h1>Midsemester Probability & Statistics Jeopardy</h1>
+        <p>Utica University • School of Business and Justice Studies</p>
     </header>
 
     <!-- Jeopardy Board -->
@@ -251,6 +304,9 @@
         <div class="modal-value" id="m-value">$100</div>
         <div class="modal-question" id="m-question">Question text goes here...</div>
         
+        <!-- Optional Image Container for Visualizations -->
+        <div id="image-container"></div>
+
         <div class="modal-answer-container" id="m-answer-container">
             <div class="modal-answer-label">Correct Answer:</div>
             <div class="modal-answer" id="m-answer">Answer text goes here...</div>
@@ -264,15 +320,46 @@
 </div>
 
 <script>
+    // SVG chart generators embedded directly in JavaScript so no external image loading is required
+    function getNormalCurveSVG() {
+        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
+            <path d="M 20 130 Q 100 130 130 50 Q 150 10 170 50 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
+            <line x1="150" y1="20" x2="150" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
+            <text x="155" y="40" font-family="sans-serif" font-size="11" fill="%23E65300" font-weight="bold">Mean = Median</text>
+        </svg>`;
+    }
+
+    function getRightSkewSVG() {
+        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
+            <path d="M 20 130 Q 70 130 90 70 Q 120 15 140 70 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
+            <line x1="110" y1="35" x2="110" y2="130" stroke="%233b82f6" stroke-width="2" stroke-dasharray="4"/>
+            <line x1="140" y1="20" x2="140" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
+            <text x="115" y="115" font-family="sans-serif" font-size="10" fill="%233b82f6" font-weight="bold">Median</text>
+            <text x="145" y="95" font-family="sans-serif" font-size="10" fill="%23E65300" font-weight="bold">Mean</text>
+        </svg>`;
+    }
+
     const gameData = [
         {
             category: "Descriptive Stats",
             questions: [
                 { value: 100, q: "The difference between a population and a sample is that a population includes every member of a group, while a sample is this.", a: "What is a subset of the population?" },
-                { value: 200, q: "When data is right-skewed, this measure of central tendency is typically higher than the median.", a: "What is the mean?" },
+                { 
+                    value: 200, 
+                    q: "When data is right-skewed (positively skewed), which measure of central tendency is typically pulled higher toward the tail?", 
+                    a: "What is the mean? (The mean is sensitive to high outliers in the right tail)",
+                    image: getRightSkewSVG()
+                },
                 { value: 300, q: "This statistical measure represents the square root of the variance and measures the dispersion or spread of data around the mean.", a: "What is the standard deviation?" },
                 { value: 400, q: "If you collect data on customer satisfaction ratings measured on a scale from 'Dissatisfied' to 'Very Satisfied', this level of measurement describes the data.", a: "What is ordinal data?" },
-                { value: 500, q: "In a dataset where mean = 50, median = 50, and mode = 50, this describes the shape of the data distribution.", a: "What is symmetrical (or a normal distribution)?" }
+                { 
+                    value: 500, 
+                    q: "In a perfectly symmetrical distribution like this one, all three measures of central tendency are equal.", 
+                    a: "What is a normal distribution (mean = median = mode)?",
+                    image: getNormalCurveSVG()
+                }
             ]
         },
         {
@@ -322,6 +409,7 @@
     const mCategory = document.getElementById('m-category');
     const mValue = document.getElementById('m-value');
     const mQuestion = document.getElementById('m-question');
+    const imageContainer = document.getElementById('image-container');
     const mAnswerContainer = document.getElementById('m-answer-container');
     const mAnswer = document.getElementById('m-answer');
     const btnReveal = document.getElementById('btn-reveal');
@@ -331,7 +419,6 @@
     function buildBoard() {
         boardEl.innerHTML = '';
         
-        // Render Category Headers
         gameData.forEach(col => {
             const header = document.createElement('div');
             header.className = 'category-header';
@@ -339,7 +426,6 @@
             boardEl.appendChild(header);
         });
 
-        // Render Question Tiles (5 rows of 5)
         for (let rowIndex = 0; rowIndex < 5; rowIndex++) {
             gameData.forEach((col, colIndex) => {
                 const qData = col.questions[rowIndex];
@@ -366,6 +452,15 @@
         mQuestion.innerText = qData.q;
         mAnswer.innerText = qData.a;
         
+        // Handle optional embedded visualizations (bell curves / skew diagrams)
+        if (qData.image) {
+            imageContainer.innerHTML = `<img src="${qData.image}" class="question-image" alt="Statistical Distribution Chart">`;
+            imageContainer.style.display = 'block';
+        } else {
+            imageContainer.innerHTML = '';
+            imageContainer.style.display = 'none';
+        }
+
         mAnswerContainer.style.display = 'none';
         btnReveal.style.display = 'inline-block';
         modalEl.style.display = 'flex';
@@ -384,7 +479,6 @@
         }
     }
 
-    // Initialize board on load
     buildBoard();
 </script>
 
