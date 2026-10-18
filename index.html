@@ -321,25 +321,27 @@
 
 <script>
     // SVG chart generators embedded directly in JavaScript so no external image loading is required
-    function getNormalCurveSVG() {
-        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
-            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
-            <path d="M 20 130 Q 100 130 130 50 Q 150 10 170 50 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
-            <line x1="150" y1="20" x2="150" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
-            <text x="155" y="40" font-family="sans-serif" font-size="11" fill="%23E65300" font-weight="bold">Mean = Median</text>
-        </svg>`;
-    }
+function getNormalCurveSVG() {
+    // Symmetrical Bell Curve
+    return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+        <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
+        <path d="M 20 130 Q 100 130 130 50 Q 150 10 170 50 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
+        <line x1="150" y1="20" x2="150" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
+        <text x="155" y="40" font-family="sans-serif" font-size="11" fill="%23E65300" font-weight="bold">Mean = Median</text>
+    </svg>`;
+}
 
-    function getRightSkewSVG() {
-        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
-            <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
-            <path d="M 20 130 Q 70 130 90 70 Q 120 15 140 70 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
-            <line x1="110" y1="35" x2="110" y2="130" stroke="%233b82f6" stroke-width="2" stroke-dasharray="4"/>
-            <line x1="140" y1="20" x2="140" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
-            <text x="115" y="115" font-family="sans-serif" font-size="10" fill="%233b82f6" font-weight="bold">Median</text>
-            <text x="145" y="95" font-family="sans-serif" font-size="10" fill="%23E65300" font-weight="bold">Mean</text>
-        </svg>`;
-    }
+function getRightSkewSVG() {
+    // Right (Positive) Skew with Mean > Median
+    return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+        <rect width="300" height="150" fill="%23f8fafc" rx="8"/>
+        <path d="M 20 130 Q 70 130 90 70 Q 120 15 140 70 Q 200 130 280 130" fill="none" stroke="%230C223F" stroke-width="3"/>
+        <line x1="110" y1="35" x2="110" y2="130" stroke="%233b82f6" stroke-width="2" stroke-dasharray="4"/>
+        <line x1="140" y1="20" x2="140" y2="130" stroke="%23E65300" stroke-width="2" stroke-dasharray="4"/>
+        <text x="115" y="115" font-family="sans-serif" font-size="10" fill="%233b82f6" font-weight="bold">Median</text>
+        <text x="145" y="95" font-family="sans-serif" font-size="10" fill="%23E65300" font-weight="bold">Mean</text>
+    </svg>`;
+}
 
     const gameData = [
         {
