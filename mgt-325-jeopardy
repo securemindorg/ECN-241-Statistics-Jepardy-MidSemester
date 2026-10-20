@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGT 325 Jeopardy: Management of Technology Lab</title>
+    <style>
+        :root {
+            --utica-navy: #0C223F;
+            --utica-orange: #E65300;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --jeopardy-blue: #060ce9;
+            --jeopardy-gold: #ffd700;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* GitHub Button in Upper Right */
+        .github-corner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--utica-orange);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.1s;
+            font-size: 0.9rem;
+        }
+
+        .github-corner:hover {
+            background-color: #c44500;
+            transform: translateY(-1px);
+        }
+
+        .github-corner svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        header {
+            background-color: var(--utica-navy);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 5px solid var(--utica-orange);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0 0 5px 0;
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        header h2 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: var(--utica-orange);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        /* Jeopardy Board Grid */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            background-color: var(--utica-navy);
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            border-bottom: 3px solid var(--utica-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        .tile {
+            background-color: var(--jeopardy-blue);
+            color: var(--jeopardy-gold);
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 25px 10px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+
+        .tile:hover {
+            background-color: #1a22f0;
+            transform: scale(1.03);
+        }
+
+        .tile.used {
+            background-color: #94a3b8;
+            color: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(12, 34, 63, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            max-width: 750px;
+            width: 100%;
+            text-align: center;
+            border-top: 8px solid var(--utica-orange);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            animation: modalPop 0.2s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-category {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--utica-orange);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .modal-value {
+            font-size: 1.4rem;
+            color: var(--utica-navy);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modal-question {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .question-image {
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px auto 20px auto;
+            display: block;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .modal-answer-container {
+            display: none;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .modal-answer-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+            font-weight: bold;
+        }
+
+        .modal-answer {
+            font-size: 1.15rem;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .modal-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            background-color: var(--utica-orange);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #c44500;
+        }
+
+        button.secondary {
+            background-color: var(--utica-navy);
+        }
+        button.secondary:hover {
+            background-color: #061426;
+        }
+
+        @media (max-width: 768px) {
+            .board {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .tile {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+            .github-corner {
+                position: relative;
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="https://github.com/securemindorg/MGT-325-Jeopardy" target="_blank" class="github-corner">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Repo
+    </a>
+
+    <header>
+        <h2>MGT 325: Management of Technology</h2>
+        <h1>Technology Management Jeopardy Review</h1>
+        <p>Utica University • School of Business And Justice Studies</p>
+    </header>
+
+    <!-- Jeopardy Board -->
+    <div class="board" id="jeopardy-board">
+        <!-- Categories generated by JS -->
+    </div>
+</div>
+
+<!-- Question Modal -->
+<div class="modal" id="question-modal">
+    <div class="modal-content">
+        <div class="modal-category" id="m-category">Category</div>
+        <div class="modal-value" id="m-value">\$100</div>
+        <div class="modal-question" id="m-question">Question text goes here...</div>
+        
+        <!-- Image Container for Visualizations -->
+        <div id="image-container"></div>
+
+        <div class="modal-answer-container" id="m-answer-container">
+            <div class="modal-answer-label">Correct Answer:</div>
+            <div class="modal-answer" id="m-answer">Answer text goes here...</div>
+        </div>
+
+        <div class="modal-controls">
+            <button id="btn-reveal" onclick="revealAnswer()">Show Answer</button>
+            <button class="secondary" onclick="closeModal()">Close / Return to Board</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const gameData = [
+        {
+            category: "IS Strategy & Foundations",
+            questions: [
+                { value: 100, q: "This foundational framework consists of People, Technology, Processes, and Structure, showing that technology alone is not an information system.", a: "What is Leavitt's Diamond?" },
+                { value: 200, q: "Michael Porter’s model that identifies specific primary and support activities in which an enterprise can leverage IS to gain competitive advantage.", a: "What is the Value Chain?" },
+                { value: 300, q: "The three primary ways an organization can achieve competitive advantage using information systems include cost leadership, focus, and this.", a: "What is differentiation?" },
+                { value: 400, q: "Hardware, software, or cloud solutions deployed and used by business units or employees without explicit IT department approval or oversight.", a: "What is Shadow IT?" },
+                { value: 500, q: "This executive leader is responsible for aligning information technology strategy with overall corporate goals and business objectives.", a: "Who is the Chief Information Officer (CIO)?" }
+            ]
+        },
+        {
+            category: "Hardware & Networks",
+            questions: [
+                { value: 100, q: "In this network topology, all devices connect through a single central hub node; if the hub fails, the entire network goes down.", a: "What is a Star Network?" },
+                { value: 200, q: "A network that connects large geographic regions across national borders, providing the infrastructure for how the world connects to the internet.", a: "What is a Wide Area Network (WAN)?" },
+                { value: 300, q: "A measurement of how long it takes for a unit of data to get to its destination and back again, typically measured in milliseconds.", a: "What is Network Latency?" },
+                { value: 400, q: "A unit of frequency equal to one billion cycles per second, commonly used as a measure of a processor's clock speed.", a: "What is Gigahertz (GHz)?" },
+                { value: 500, q: "A robust network topology that uses multiple access points and allows communication to 'hop' from node to node around blocked or failed paths.", a: "What is a Mesh Network?" }
+            ]
+        },
+        {
+            category: "Databases & Big Data",
+            questions: [
+                { value: 100, q: "The five V's of big data include Volume, Velocity, Value, Variety, and this fifth V representing data quality, accuracy, and reliability.", a: "What is Veracity?" },
+                { value: 200, q: "An attribute or set of attributes in a relational database table that uniquely identifies each specific record.", a: "What is a Primary Key?" },
+                { value: 300, q: "An open-source software framework utilizing HDFS to distribute and process extremely large datasets across hundreds of servers.", a: "What is Hadoop?" },
+                { value: 400, q: "These four properties—Atomicity, Consistency, Isolation, and Durability—guarantee that database transactions are processed reliably.", a: "What are ACID properties?" },
+                { value: 500, q: "A 'store everything' approach to big data that saves all enterprise data in its raw, unaltered form until users decide how to use it.", a: "What is a Data Lake?" }
+            ]
+        },
+        {
+            category: "Security & Ethics",
+            questions: [
+                { value: 100, q: "The core security triad consists of Confidentiality, Integrity, and this third principle ensuring systems and records remain operational when needed.", a: "What is Availability?" },
+                { value: 200, q: "In the AAA security framework, authentication answers 'Who are you?', authorization answers 'What can you do?', and accounting answers this.", a: "What is 'What did you do?' (or tracking user actions/logs)" },
+                { value: 300, q: "Specialized malware that encrypts operational files or system data and demands extortion payments for decryption keys.", a: "What is Ransomware?" },
+                { value: 400, q: "A system whose failure may cause human injury or death, presenting major ethical and testing dilemmas for software developers.", a: "What is a Safety-Critical System?" },
+                { value: 500, q: "The core component of data management that defines roles, responsibilities, and processes to ensure data can be trusted and used enterprise-wide.", a: "What is Data Governance?" }
+            ]
+        },
+        {
+            category: "Software & Web Arch.",
+            questions: [
+                { value: 100, q: "Software produced by vendors to address common needs across businesses, often contrasted with custom proprietary software.", a: "What is Off-the-Shelf Software?" },
+                { value: 200, q: "A service delivery model that allows businesses to subscribe to web-delivered application software hosted in the cloud.", a: "What is Software as a Service (SaaS)?" },
+                { value: 300, q: "This individual invented the World Wide Web, originally conceiving it as an internal document management system.", a: "Who is Sir Tim Berners-Lee?" },
+                { value: 400, q: "An internal corporate network built using internet and web standards that allows employees to access important corporate documents securely.", a: "What is an Intranet?" },
+                { value: 500, q: "A climate- and access-controlled facility housing the computer hardware that delivers an organization's data and information services ('the cloud').", a: "What is a Data Center?" }
+            ]
+        }
+    ];
+
+    const boardEl = document.getElementById('jeopardy-board');
+    const modalEl = document.getElementById('question-modal');
+    const mCategory = document.getElementById('m-category');
+    const mValue = document.getElementById('m-value');
+    const mQuestion = document.getElementById('m-question');
+    const imageContainer = document.getElementById('image-container');
+    const mAnswerContainer = document.getElementById('m-answer-container');
+    const mAnswer = document.getElementById('m-answer');
+    const btnReveal = document.getElementById('btn-reveal');
+
+    let currentTile = null;
+
+    function buildBoard() {
+        boardEl.innerHTML = '';
+        
+        gameData.forEach(col => {
+            const header = document.createElement('div');
+            header.className = 'category-header';
+            header.innerText = col.category;
+            boardEl.appendChild(header);
+        });
+
+        for (let rowIndex = 0; rowIndex < 5; rowIndex++) {
+            gameData.forEach((col, colIndex) => {
+                const qData = col.questions[rowIndex];
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.innerText = `$${qData.value}`;
+                tile.dataset.col = colIndex;
+                tile.dataset.row = rowIndex;
+                
+                tile.onclick = () => openQuestion(colIndex, rowIndex, tile);
+                boardEl.appendChild(tile);
+            });
+        }
+    }
+
+    function openQuestion(colIndex, rowIndex, tile) {
+        if (tile.classList.contains('used')) return;
+
+        currentTile = tile;
+        const qData = gameData[colIndex].questions[rowIndex];
+
+        mCategory.innerText = gameData[colIndex].category;
+        mValue.innerText = `$${qData.value}`;
+        mQuestion.innerText = qData.q;
+        mAnswer.innerText = qData.a;
+        
+        imageContainer.innerHTML = '';
+        imageContainer.style.display = 'none';
+
+        mAnswerContainer.style.display = 'none';
+        btnReveal.style.display = 'inline-block';
+        modalEl.style.display = 'flex';
+    }
+
+    function revealAnswer() {
+        mAnswerContainer.style.display = 'block';
+        btnReveal.style.display = 'none';
+    }
+
+    function closeModal() {
+        modalEl.style.display = 'none';
+        if (currentTile) {
+            currentTile.classList.add('used');
+            currentTile.innerText = '—';
+        }
+    }
+
+    buildBoard();
+</script>
+
+</body>
+</html>
